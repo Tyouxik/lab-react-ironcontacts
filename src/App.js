@@ -21,25 +21,35 @@ class App extends Component {
 
   sortName = () => {
     const sortByName = [].concat(this.state.contacts).sort((a,b) => {
-      return a.name.localeCompare(b.name)})
+      return a.name.localeCompare(b.name);
+    });
 
     this.setState ((state, props) => ({
       contacts: sortByName
-    }))
+    }));
   }
 
   sortPopularity = () => {
     const sortByPop = [].concat(this.state.contacts).sort((a,b) => {
-      return b.popularity - a.popularity})
+      return b.popularity - a.popularity;
+    });
 
     this.setState ((state, props) => ({
       contacts: sortByPop
-    }))
+    }));
   }
 
-  deleteActor = () => {
-    let index = 0;
-    console.log(ContactList)
+  deleteContact = (id) => {
+    const index = this.state.contacts.findIndex((contact)=>{
+      return contact.id === id;
+    })
+    const contacts = [...this.state.contacts];
+    contacts.splice(index,1);
+    
+    this.setState((state,props)=> ({
+      contacts
+    }));
+
   }
 
   render () {
@@ -51,10 +61,10 @@ class App extends Component {
         <button onClick={this.addRandom}>Add Random actor</button>
         <button onClick={this.sortName}>Sort by name</button>
         <button onClick={this.sortPopularity}>Sort by popularity</button>
-        <button onClick={this.deleteActor}>Text delete button</button>
-        <ContactList contacts={this.state.contacts} />
+        {/* <button onClick={this.deleteActor}>Text delete button</button> */}
+        <ContactList contacts={this.state.contacts} deleteContact={this.deleteContact}/>
       </div>
-    )
+    );
   }
 }
 
